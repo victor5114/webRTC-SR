@@ -1,0 +1,27 @@
+{
+    "extends": "standard",
+    "parser": "babel-eslint",
+    "rules": {
+        "indent": ["error", 4],
+        "mocha/no-exclusive-tests": "error",
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true,
+                "optionalDependencies": false,
+                "peerDependencies": false
+            }
+        ]
+    },
+    "plugins": [
+        "import",
+        "mocha"
+    ],
+    "env": {
+        "node": true,
+        "commonjs": true,
+        "browser": true,
+        "mocha": true,
+        "protractor": true
+    }
+}
