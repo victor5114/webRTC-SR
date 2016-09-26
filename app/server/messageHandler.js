@@ -1,55 +1,38 @@
-// exporting for unit tests only
 export const connectedPeers = {}
+
+const protocolMethods = ['ICECandidate', 'offer', 'answer', 'init']
+
+export function getPeerIds () {
+    return Object.keys(connectedPeers)
+}
 
 export default function onMessage (ws, message) {
     var type = message.type
-    switch (type) {
-    case 'ICECandidate':
-        onICECandidate(message.ICECandidate, message.destination, ws.id)
-        break
-    case 'offer':
-        onOffer(message.offer, message.destination, ws.id)
-        break
-    case 'answer':
-        onAnswer(message.answer, message.destination, ws.id)
-        break
-    case 'init':
-        onInit(ws, message.init)
-        break
-    default:
-        throw new Error('invalid message type')
+    console.log(message)
+    if (protocolMethods.indexOf(type) > -1) {
+        callProtocolMethod(type, message).call({}, ws)
+    } else {
+        throw new Error('Invalid message type')
     }
 }
 
-function onInit (ws, id) {
-    console.log('init from peer:', id)
-    ws.id = id
-    connectedPeers[id] = ws
-}
+function callProtocolMethod (type, mess) {
+    const args = (connectedPeers[mess.destination])
+        ? { type: mess.type, [type]: mess[type], source: mess.source }
+        : { type: 'error', message: 'Unreachable', destination: mess.destination }
 
-function onOffer (offer, destination, source) {
-    console.log('offer from peer:', source, 'to peer', destination)
-    connectedPeers[destination].send(JSON.stringify({
-        type: 'offer',
-        offer: offer,
-        source: source
-    }))
-}
+    return function (ws) {
+        if (type === 'init') {
+            console.log('init from peer:', mess[type]) // mess.init = socket id
+            ws.id = mess[type]
+            connectedPeers[mess[type]] = ws
+            return
+        }
 
-function onAnswer (answer, destination, source) {
-    console.log('answer from peer:', source, 'to peer', destination)
-    connectedPeers[destination].send(JSON.stringify({
-        type: 'answer',
-        answer: answer,
-        source: source
-    }))
-}
-
-function onICECandidate (ICECandidate, destination, source) {
-    console.log('ICECandidate from peer:', source, 'to peer', destination)
-    connectedPeers[destination].send(JSON.stringify({
-        type: 'ICECandidate',
-        ICECandidate: ICECandidate,
-        source: source
-    }))
+        if (args.type === 'error') {
+            connectedPeers[ws.id].send(JSON.stringify(args)) // Callback message to source
+        } else {
+            connectedPeers[mess.destination].send(JSON.stringify(args)) // Forward message to destination
+        }
+    }
 }

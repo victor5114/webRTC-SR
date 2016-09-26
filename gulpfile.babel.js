@@ -11,6 +11,8 @@ let plugins = gulpLoadPlugins()
 
 const SERVER_PATH = 'app/server'
 const SERVER_DIST_PATH = 'app/server-dist'
+const CLIENT_PATH = 'app/client'
+const CLIENT_DIST_PATH = 'app/client-dist'
 
 const serverPaths = {
     scripts: [
@@ -122,7 +124,7 @@ gulp.task('transpile:server', () => {
 
 gulp.task('start:server', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-    nodemon(`-w ${SERVER_PATH}/index.js ${SERVER_PATH}/index.js`)
+    nodemon(`-w ${SERVER_PATH} -w ${CLIENT_PATH} ${SERVER_PATH}/index.js`)
         .on('log', onServerLog)
 })
 

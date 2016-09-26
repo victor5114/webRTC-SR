@@ -11,6 +11,10 @@ exports.default = function (app) {
 
     app.use(_express2.default.static(CLIENT_PATH));
 
+    app.get('/', function (req, res) {
+        res.render('index.ejs');
+    });
+
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
@@ -31,5 +35,6 @@ var _path2 = _interopRequireDefault(_path);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CLIENT_PATH = _path2.default.join(__dirname, '../client/');
+var CLIENT_FOLDER = process.env.NODE_ENV === 'production' ? '../client-dist/' : '../client/';
+var CLIENT_PATH = _path2.default.join(__dirname, CLIENT_FOLDER);
 //# sourceMappingURL=staticServer.js.map

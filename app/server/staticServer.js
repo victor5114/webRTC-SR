@@ -1,7 +1,8 @@
 import express from 'express'
 import path from 'path'
 
-const CLIENT_PATH = path.join(__dirname, '../client/')
+const CLIENT_FOLDER = process.env.NODE_ENV === 'production' ? '../client-dist/' : '../client/'
+const CLIENT_PATH = path.join(__dirname, CLIENT_FOLDER)
 
 export default function (app) {
     // set the view engine to ejs
@@ -9,6 +10,10 @@ export default function (app) {
     app.set('views', CLIENT_PATH)
 
     app.use(express.static(CLIENT_PATH))
+
+    app.get('/', (req, res) => {
+        res.render(`tuto.ejs`)
+    })
 
     app.use((err, req, res, next) => {
         res.status(err.status || 500)

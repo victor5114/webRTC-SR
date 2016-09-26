@@ -1,4 +1,4 @@
-import createSignalingChannel from '../utils/signalingChannelFactory'
+import SignalingChannel from '../utils/signalingChannel'
 
 const CALLER_ID = 1
 
@@ -8,7 +8,9 @@ export default function initCaller (messageCallback) {
     var RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate
 
     var wsUri = 'ws://localhost:8089/'
-    var signalingChannel = createSignalingChannel(wsUri, CALLER_ID)
+    // var signalingChannel = createSignalingChannel(wsUri, CALLER_ID)
+    const signalingChannel = new SignalingChannel(CALLER_ID, wsUri)
+
     var servers = {iceServers: [{urls: 'stun:stun.1.google.com:19302'}]}
 
     function startCommunication (peerId) {
@@ -29,7 +31,9 @@ export default function initCaller (messageCallback) {
         }
 
         pc.onicecandidate = function (evt) {
-            if (evt.candidate) { // empty candidate (wirth evt.candidate === null) are often generated
+            console.log('onicecandidate')
+            console.log(evt)
+            if (evt.candidate) { // empty candidate (with evt.candidate === null) are often generated
                 signalingChannel.sendICECandidate(evt.candidate, peerId)
             }
         }

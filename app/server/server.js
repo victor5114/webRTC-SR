@@ -2,7 +2,7 @@ import { createServer } from 'http'
 // import url from 'url'
 import { Server } from 'ws'
 import express from 'express'
-import staticServer from './staticServer'
+import startStaticServer from './staticServer'
 import messageHandler from './messageHandler'
 
 const PORT = process.env.PORT || 8089
@@ -11,9 +11,7 @@ const wss = new Server({ server: server })
 
 const app = express()
 
-app.get('/', (req, res) => {
-    res.render(`index.ejs`)
-})
+startStaticServer(app)
 
 wss.on('connection', (ws) => {
     // var location = url.parse(ws.upgradeReq.url, true)
@@ -29,9 +27,5 @@ wss.on('connection', (ws) => {
 
 server.on('request', app)
 server.listen(PORT, () => console.log('Listening on ' + server.address().port))
-
-if (process.env.NODE_ENV === 'production') {
-    staticServer(app)
-}
 
 console.log('started signaling server on port ' + PORT)

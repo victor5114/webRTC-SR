@@ -1,4 +1,4 @@
-import createSignalingChannel from '../utils/signalingChannelFactory'
+import SignalingChannel from '../utils/signalingChannel'
 
 const CALLEE_ID = 2
 
@@ -8,7 +8,7 @@ export default function initCallee (messageCallback) {
     var RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate
 
     var wsUri = 'ws://localhost:8089/'
-    var signalingChannel = createSignalingChannel(wsUri, CALLEE_ID)
+    const signalingChannel = new SignalingChannel(CALLEE_ID, wsUri)
     var servers = { iceServers: [{urls: 'stun:stun.1.google.com:19302'}] }
 
     function createPeerConnection (peerId) {
@@ -22,11 +22,6 @@ export default function initCallee (messageCallback) {
             if (evt.candidate) { // empty candidate (wirth evt.candidate === null) are often generated
                 signalingChannel.sendICECandidate(evt.candidate, peerId)
             }
-        }
-
-        signalingChannel.onICECandidate = function (ICECandidate, source) {
-            console.log('receiving ICE candidate from ', source)
-            pc.addIceCandidate(new RTCIceCandidate(ICECandidate))
         }
 
         pc.ondatachannel = function (event) {
