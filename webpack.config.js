@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const loaders = require('./webpack.loaders')
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const HOST = '127.0.0.1'
 const PORT = process.env.WEBPACK_SERVER_PORT || '8888'
@@ -46,15 +46,10 @@ loaders.push({
 
 module.exports = {
     entry: {
-        callee: [
+        all: [
             `webpack-dev-server/client?http://${HOST}:${PORT}`,
             'webpack/hot/only-dev-server',
-            `${SRC_PATH}/callee/index.js` // The appʼs entry point
-        ],
-        caller: [
-            `webpack-dev-server/client?http://${HOST}:${PORT}`,
-            'webpack/hot/only-dev-server',
-            `${SRC_PATH}/caller/index.js` // The appʼs entry point
+            `${SRC_PATH}/index.jsx` // The appʼs entry point
         ]
     },
     devtool: process.env.WEBPACK_DEVTOOL || 'inline-source-map',
@@ -63,7 +58,7 @@ module.exports = {
         filename: '[name].bundle.js'
     },
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['', '.js', 'jsx']
     },
     module: {
         loaders
@@ -79,16 +74,18 @@ module.exports = {
         // serve index.html in place of 404 responses to allow HTML5 history
         historyApiFallback: true,
         port: PORT,
-        host: HOST,
-        proxy: {
-            '/api': {
-                target: 'http://localhost:8089',
-                ws: true
-            }
-        }
+        host: HOST
+        // proxy: {
+        //     '**': 'http://localhost:8089'
+        // }
     },
     plugins: [
         new webpack.NoErrorsPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'RTC Test',
+            template: `${SRC_PATH}/index.html`,
+            favicon: `${SRC_PATH}/favicon.ico`
+        })
     ]
 }

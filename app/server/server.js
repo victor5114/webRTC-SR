@@ -3,7 +3,7 @@ import { createServer } from 'http'
 import { Server } from 'ws'
 import express from 'express'
 import startStaticServer from './staticServer'
-import messageHandler from './messageHandler'
+import signalHandler, { getPeers, dataHandler } from './messageHandler'
 
 const PORT = process.env.PORT || 8089
 const server = createServer()
@@ -13,15 +13,28 @@ const app = express()
 
 startStaticServer(app)
 
-wss.on('connection', (ws) => {
-    // var location = url.parse(ws.upgradeReq.url, true)
-    console.log('connection from a client')
-    // you might use location.query.access_token to authenticate or share sessions
-    // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
+wss.broadcast = function (data) {
+    for (var i in this.clients) {
+        this.clients[i].send(data)
+    }
+}
 
-    ws.on('message', (message) => {
+wss.on('connection', (ws) => {
+    console.log('connection from a client')
+
+    ws.on('message', (message, flags) => {
         var objMessage = JSON.parse(message)
-        messageHandler(ws, objMessage)
+
+        if (objMessage.flags === 'broadcast') {
+            // Broadcast message to anyone
+            wss.broadcast(getPeers())
+        } else if (objMessage.flags === 'data') {
+            // Compute data and sent by to source
+            dataHandler(ws, objMessage)
+        } else {
+            // Handle signal for RTC Session negociation
+            signalHandler(ws, objMessage)
+        }
     })
 })
 

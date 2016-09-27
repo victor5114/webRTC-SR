@@ -8,8 +8,7 @@ export default function (app) {
     // set the view engine to ejs
     app.set('view engine', 'ejs')
     app.set('views', CLIENT_PATH)
-
-    app.use(express.static(CLIENT_PATH))
+    app.use(express.static(path.join(CLIENT_PATH)))
 
     app.get('/', (req, res) => {
         res.render(`tuto.ejs`)
