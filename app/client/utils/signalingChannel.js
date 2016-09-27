@@ -1,5 +1,4 @@
-const RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription
-const RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate
+const wsUri = 'ws://localhost:8089/'
 
 export default class SignalingChannel {
 
@@ -12,7 +11,7 @@ export default class SignalingChannel {
     }
 
     constructor (id, url) {
-        this._ws = new WebSocket(url)
+        this._ws = new WebSocket(wsUri)
         this._ws.onopen = this._onConnectionEstablished.bind(this, id)
         this._ws.onclose = this._onClose
         this._ws.onmessage = this._onMessage.bind(this)
@@ -36,23 +35,21 @@ export default class SignalingChannel {
         this._ws.send(args)
     }
 
+    // Function to override when define caller
     onICECandidate (ICECandidate, source) {
         console.log('ICECandidate from peer:', source, ':', ICECandidate)
-        // pc.addIceCandidate(new RTCIceCandidate(ICECandidate))
     }
 
-    // default handler, should be overriden
+    // Function to override when define callee
     onOffer (offer, source) {
         console.log('offer from peer:', source, ':', offer)
     }
 
-    // default handler, should be overriden
-    onAnswer (answer, source, cb) {
-        console.log('answer from peer:', source, ':', answer)
-        cb()
+    // Function to override when define caller
+    onAnswer (answer, source) {
+        console.log('receive answer from ', source)
     }
 
-    // default handler, should be overriden
     onError (message, destination) {
         console.log('Error : ', destination, ' is', message)
     }
@@ -76,7 +73,6 @@ export default class SignalingChannel {
             this.onICECandidate(objMessage.ICECandidate, objMessage.source)
             break
         case 'offer':
-            console.log('Got an offer')
             this.onOffer(objMessage.offer, objMessage.source)
             break
         case 'answer':

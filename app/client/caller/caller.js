@@ -1,55 +1,32 @@
 import SignalingChannel from '../utils/signalingChannel'
+import RTCConnection from '../utils/RTCConnection'
 
 const CALLER_ID = 1
 
 export default function initCaller (messageCallback) {
-    var RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription
-    var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection
-    var RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate
+    const signalingChannel = new SignalingChannel(CALLER_ID)
 
-    var wsUri = 'ws://localhost:8089/'
-    // var signalingChannel = createSignalingChannel(wsUri, CALLER_ID)
-    const signalingChannel = new SignalingChannel(CALLER_ID, wsUri)
+    return function startCommunication (peerID) {
+        const peerConnection = new RTCConnection(signalingChannel, peerID, messageCallback)
 
-    var servers = {iceServers: [{urls: 'stun:stun.1.google.com:19302'}]}
-
-    function startCommunication (peerId) {
-        var pc = new RTCPeerConnection(servers, {
-            optional: [{
-                DtlsSrtpKeyAgreement: true
-            }]
-        })
-
-        signalingChannel.onAnswer = function (answer, source) {
+        // Override this method
+        signalingChannel.onAnswer = (answer, source) => {
             console.log('receive answer from ', source)
-            pc.setRemoteDescription(new RTCSessionDescription(answer))
+            peerConnection.ActionAfterAnswer(answer)
         }
 
-        signalingChannel.onICECandidate = function (ICECandidate, source) {
+        signalingChannel.onICECandidate = (ICECandidate, source) => {
             console.log('receiving ICE candidate from ', source)
-            pc.addIceCandidate(new RTCIceCandidate(ICECandidate))
-        }
-
-        pc.onicecandidate = function (evt) {
-            console.log('onicecandidate')
-            console.log(evt)
-            if (evt.candidate) { // empty candidate (with evt.candidate === null) are often generated
-                signalingChannel.sendICECandidate(evt.candidate, peerId)
-            }
+            peerConnection.addIceCandidate(ICECandidate)
         }
 
         // :warning the dataChannel must be opened BEFORE creating the offer.
-        var _commChannel = pc.createDataChannel('communication', {
+        var _commChannel = peerConnection.pc.createDataChannel('communication', {
             reliable: false
         })
 
-        pc.createOffer(function (offer) {
-            pc.setLocalDescription(offer)
-            console.log('send offer')
-            signalingChannel.sendOffer(offer, peerId)
-        }, function (e) {
-            console.error(e)
-        })
+        // Start the negociation
+        peerConnection.createOffer()
 
         window.channel = _commChannel
 
@@ -69,6 +46,4 @@ export default function initCaller (messageCallback) {
             messageCallback(message.data)
         }
     }
-
-    window.startCommunication = startCommunication
 }

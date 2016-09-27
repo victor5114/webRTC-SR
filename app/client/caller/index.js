@@ -3,7 +3,7 @@ import initCaller from './caller'
 window.addEventListener('load', function () {
     var received = document.getElementById('received')
 
-    initCaller((message) => {
+    const startNego = initCaller((message) => {
         var newText = document.createTextNode(message)
         received.appendChild(newText)
     })
@@ -14,6 +14,6 @@ window.addEventListener('load', function () {
     }
 
     document.getElementById('start').onclick = function () {
-        window.startCommunication(2)
+        startNego(2)
     }
 }, false)
