@@ -1,9 +1,9 @@
 import { onAvailablePseudoResponse, onAvailablePeersResponse } from './customEvents'
+import { AVAILABLE_PEERS, CHECK_AVAILABLE_PSEUDO } from '../types/dataActions'
 
 const wsUri = 'ws://localhost:8089/'
 
 export default class SignalingChannel {
-
     static _JSONFormatMessage (type, data, destination, flags) {
         return JSON.stringify({
             type: type,
@@ -39,12 +39,12 @@ export default class SignalingChannel {
     }
 
     // Data methods
-    sendCheckAvailablePseudo (data, destination) {
-        this.sendData('checkAvailablePseudo', data, destination)
+    sendCheckAvailablePseudo (data, destination = null) {
+        this.sendData(CHECK_AVAILABLE_PSEUDO, data, destination)
     }
 
-    sendAvailablePeers (data, destination) {
-        this.sendData('availablePeers', data, destination)
+    sendAvailablePeers (data, destination = null) {
+        this.sendData(AVAILABLE_PEERS, data, destination)
     }
 
     sendData (type, data, destination) {
@@ -52,8 +52,8 @@ export default class SignalingChannel {
     }
 
     // Broadcast method
-    sendBroadcast (data) {
-        this._sendMessage('broadcast', data, null, 'broadcast')
+    sendBroadcast (type, data) {
+        this._sendMessage(type, data, null, 'broadcast')
     }
 
     _sendMessage (type, data, destination, flags) {
@@ -106,7 +106,6 @@ export default class SignalingChannel {
 
     _onMessage (evt) {
         var objMessage = JSON.parse(evt.data)
-        console.log(objMessage)
         switch (objMessage.type) {
         case 'ICECandidate':
             this.onICECandidate(objMessage.ICECandidate, objMessage.source)

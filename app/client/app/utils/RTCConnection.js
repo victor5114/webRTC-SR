@@ -5,10 +5,10 @@ const RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate
 const servers = { iceServers: [{urls: 'stun:stun.1.google.com:19302'}] }
 
 export default class RTCConnection {
-    constructor (sigChannel, peerID, messageCallback) {
+    constructor (sigChannel, peerID, channelCallback) {
         this.peerID = peerID
         this.signalingChannel = sigChannel
-        this.messageCallback = messageCallback
+        this.channelCallback = channelCallback
         this.pc = new RTCPeerConnection(servers, {
             optional: [{
                 DtlsSrtpKeyAgreement: true
@@ -36,11 +36,12 @@ export default class RTCConnection {
     onDataChannel (evt) {
         var receiveChannel = evt.channel
         console.log('channel received')
-        this.channel = receiveChannel
-        window.channel = receiveChannel
-        receiveChannel.onmessage = (evt) => {
-            this.messageCallback(evt.data)
-        }
+        this.channelCallback(this.peerID, receiveChannel)
+        // this.channel = receiveChannel
+        // window.channel = receiveChannel
+        // receiveChannel.onmessage = (evt) => {
+        //     this.messageCallback(evt.data)
+        // }
     }
 
     addIceCandidate (ICECandidate, source) {
