@@ -48,6 +48,7 @@ describe('signalingServer', function () {
             var expectedResponse = '{"type":"offer","offer":"offer SDP","source":1}'
             spy.firstCall.args[0].should.eql(expectedResponse)
         })
+
         it('onAnswer', function () {
             var answerSDP = 'answer SDP'
             var message = {
@@ -61,6 +62,7 @@ describe('signalingServer', function () {
             var expectedResponse = '{"type":"answer","answer":"answer SDP","source":1}'
             spy.firstCall.args[0].should.eql(expectedResponse)
         })
+
         it('onICECandidate', function () {
             var ICECandidateSDP = 'ICECandidate SDP'
             var message = {
