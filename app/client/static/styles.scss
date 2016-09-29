@@ -1,0 +1,20 @@
+html {
+    font-size: 62.5%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font: 1.8rem "Lucida Console", Monaco, monospace !important;
+  color: #505050 !important;
+}
+
+.chat-window {
+    font: 1.4rem "courier-prime", courier, monospace !important;
+}

@@ -6,33 +6,39 @@ import SignalingChannel from './utils/signalingChannel'
 import { AVAILABLE_PEERS } from './types/dataActions'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import '../static/styles.scss'
 
 export default class App extends Component {
     constructor (props) {
         super(props)
-        this.state = { hasPseudo: false, pseudo: '' }
+        this.state = { hasPseudo: false, pseudo: '', pseudoOK: false }
         this.handleChangePseudo = this.handleChangePseudo.bind(this)
         this.setPseudo = this.setPseudo.bind(this)
         this.renderChat = this.renderChat.bind(this)
         this.renderPseudoInput = this.renderPseudoInput.bind(this)
+        this.handlePseudoResponse = this.handlePseudoResponse.bind(this)
     }
 
     componentDidMount () {
         window.SignalingChannel = new SignalingChannel()
-    }
-
-    componentDidUpdate () {
-        if (!this.state.hasPseudo) {
-            window.SignalingChannel.sendCheckAvailablePseudo(this.state.pseudo)
-        }
+        window.addEventListener('onavailablepseudoresponse', this.handlePseudoResponse)
     }
 
     componentWillUnmount () {
+        window.removeEventListener('onavailablepseudoresponse', this.handlePseudoResponse)
         window.SignalingChannel.sendBroadcast(AVAILABLE_PEERS, this.props.pseudo)
     }
 
     handleChangePseudo (evt) {
-        this.setState({ hasPseudo: false, pseudo: evt.target.value })
+        if (!this.state.hasPseudo) {
+            window.SignalingChannel.sendCheckAvailablePseudo(evt.target.value)
+        }
+        this.setState({ ...this.state, pseudo: evt.target.value })
+    }
+
+    handlePseudoResponse (evt) {
+        const ok = evt.detail && this.state.pseudo.length !== 0
+        this.setState({ ...this.state, pseudoOK: ok })
     }
 
     setPseudo (evt) {
@@ -53,14 +59,16 @@ export default class App extends Component {
     renderPseudoInput (hasPseudo) {
         if (!hasPseudo) {
             return <form onSubmit={this.setPseudo}>
-                <label>Type your pseudo</label>
                 <input
                     type="text"
                     id="pseudo_input"
                     value={this.state.pseudo}
-                    onChange={this.handleChangePseudo} />
-                <input type="submit" value="Submit" />
-                <TickValidator term={this.state.pseudo}/>
+                    onChange={this.handleChangePseudo}
+                    placeholder="Type your pseudo"
+                    autoComplete="off"/>
+                <button type="submit" className="btn btn-primary" disabled={!this.state.pseudoOK}>
+                    <TickValidator ok={this.state.pseudoOK}/>
+                </button>
             </form>
         }
     }

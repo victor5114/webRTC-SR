@@ -20,6 +20,10 @@ const StoreWebRTC = (function () {
         deleteConnection (peerID) {
             let store = this.getInstance()
             delete store.peerID
+        },
+        getChannelByPeer (peerID) {
+            let store = this.getInstance()
+            return store[peerID]
         }
     }
 })()

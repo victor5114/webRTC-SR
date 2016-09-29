@@ -27,7 +27,7 @@ loaders.push({
 })
 // local scss modules
 loaders.push({
-    test: /[\/\\]src[\/\\].*\.scss/,
+    test: /[\/\\]app[\/\\].*\.scss/,
     loaders: [
         'style?sourceMap',
         'css',
@@ -37,7 +37,7 @@ loaders.push({
 
 // local css modules
 loaders.push({
-    test: /[\/\\]src[\/\\].*\.css/,
+    test: /[\/\\]app[\/\\].*\.css/,
     loaders: [
         'style?sourceMap',
         'css'

@@ -13,9 +13,10 @@ export default class listConnectedPeers extends Component {
 
     constructor (props) {
         super(props)
-        this.state = { peersList: [], currentChat: {} }
+        this.state = { peersList: [], currentPeer: '' }
         this.handlePeersResponse = this.handlePeersResponse.bind(this)
         this.renderPeerListElem = this.renderPeerListElem.bind(this)
+        this.onClickOpenChat = this.onClickOpenChat.bind(this)
         this.once = true
     }
 
@@ -46,11 +47,15 @@ export default class listConnectedPeers extends Component {
     openConnectionWithPeers (peersList) {
         peersList.map((peerID) => {
             if (Object.keys(StoreWebRTC.getInstance()).indexOf(peerID) === -1) {
-                const channel = initCaller(window.SignalingChannel, peerID)
+                const channel = initCaller(window.SignalingChannel, peerID, this.props.pseudo)
                 StoreWebRTC.addConnection(peerID, channel)
                 console.log(StoreWebRTC.getInstance())
             }
         })
+    }
+
+    onClickOpenChat (peer) {
+        this.setState({ ...this.state, currentPeer: peer })
     }
 
     renderPeerListElem () {
@@ -58,9 +63,34 @@ export default class listConnectedPeers extends Component {
             return <li><span>No peers available</span></li>
         }
 
+        const getItemClass = (peer) => {
+            let mainClasses = 'list-group-item clearfix'
+            if (peer === this.state.currentPeer) {
+                mainClasses += ' list-group-item-info'
+            }
+            return mainClasses
+        }
+
         return this.state.peersList.map((peer) => {
             if (peer !== this.props.pseudo) {
-                return <li key={peer}><a>{peer}</a></li>
+                return (
+                    <li
+                    key={peer}
+                    className={ getItemClass(peer) }>
+                        <div className="pull-left">{peer}</div>
+                        <div className="pull-right">
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={(evt) => {
+                                    evt.preventDefault()
+                                    this.onClickOpenChat(peer)
+                                }}>
+                                <span className="glyphicon glyphicon-pencil"></span>
+                            </button>
+                        </div>
+                    </li>
+                )
             }
         })
         // receiveChannel.onmessage = (evt) => {
@@ -69,16 +99,17 @@ export default class listConnectedPeers extends Component {
     }
 
     render () {
+        console.log(this.state)
         return (
             <div>
                 <div className="col-md-3">
                     <b>Your pseudo is {this.props.pseudo}</b>
-                    <ul>
+                    <ul className="list-group">
                         {this.renderPeerListElem()}
                     </ul>
                 </div>
                 <div className="col-md-9">
-                    <ChatWindow />
+                    <ChatWindow peerID={this.state.currentPeer} pseudo={this.props.pseudo}/>
                 </div>
             </div>
         )

@@ -1,10 +1,10 @@
 // import SignalingChannel from './signalingChannel'
 import RTCConnection from './RTCConnection'
 
-export default function initCaller (signalingChannel, peerID) {
+export default function initCaller (signalingChannel, peerID, callerID) {
     const peerConnection = new RTCConnection(signalingChannel, peerID)
     // :warning the dataChannel must be opened BEFORE creating the offer.
-    const _commChannel = peerConnection.pc.createDataChannel('communication', {
+    const _commChannel = peerConnection.pc.createDataChannel(`communication_${callerID}_${peerID}`, {
         reliable: false
     })
 
