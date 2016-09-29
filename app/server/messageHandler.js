@@ -7,6 +7,10 @@ export function getConnectedPeers () {
     return connectedPeers
 }
 
+export function setConnectedPeer (id, ws) {
+    connectedPeers[id] = ws
+}
+
 export function deletePeer (id) {
     delete connectedPeers[id]
 }
@@ -56,11 +60,9 @@ export function dataHandler (message, ws) {
 export function callDataMethod (type, mess, ws) {
     let res = null
     const data = mess ? mess[type] : null
-    console.log(type)
     switch (type) {
     case 'availablePeers':
         const peers = Object.keys(getConnectedPeers())
-        console.log(peers)
         res = removeElem(peers, data)
         break
     case 'checkAvailablePseudo':

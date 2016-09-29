@@ -5,14 +5,14 @@ import gulpLoadPlugins from 'gulp-load-plugins'
 import lazypipe from 'lazypipe'
 import nodemon from 'nodemon'
 import runSequence from 'run-sequence'
-import { Instrumenter } from 'isparta'
+// import { Instrumenter } from 'isparta'
 
 let plugins = gulpLoadPlugins()
 
 const SERVER_PATH = 'app/server'
 const SERVER_DIST_PATH = 'app/server-dist'
 const CLIENT_PATH = 'app/client'
-const CLIENT_DIST_PATH = 'app/client-dist'
+// const CLIENT_DIST_PATH = 'app/client-dist'
 
 const serverPaths = {
     scripts: [
@@ -26,13 +26,13 @@ const serverPaths = {
     ],
     json: '**/*.json',
     test: {
-        integration: 'api/**/*.integration.js',
-        unit: 'api/**/*.spec.js',
-        coverage: [
-            'api/**/*.js',
-            '!api/**/*.events.js',
-            '!api/**/*.socket.js'
-        ]
+        // integration: 'api/**/*.integration.js',
+        unit: 'test/server/**/*.spec.js'
+        // coverage: [
+        //     'api/**/*.js',
+        //     '!api/**/*.events.js',
+        //     '!api/**/*.socket.js'
+        // ]
     }
 }
 
@@ -181,4 +181,9 @@ gulp.task('serve:dist', cb => {
         'start:server:prod',
         cb
     )
+})
+
+gulp.task('mocha:unit', () => {
+    return gulp.src(serverPaths.test.unit)
+        .pipe(mocha())
 })

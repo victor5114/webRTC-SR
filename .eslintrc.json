@@ -18,6 +18,10 @@
         "import",
         "mocha"
     ],
+    "globals": {
+        "sinon": true,
+        "sandbox": true
+    },
     "env": {
         "node": true,
         "commonjs": true,
