@@ -129,8 +129,7 @@ gulp.task('start:server', () => {
 })
 
 gulp.task('start:server:prod', () => {
-    const env = process.env.NODE_ENV = process.env.NODE_ENV || 'production'
-    console.log(env)
+    // const env = process.env.NODE_ENV = process.env.NODE_ENV || 'production'
     nodemon(`-w ./${SERVER_DIST_PATH} ./${SERVER_DIST_PATH}`)
         .on('log', onServerLog)
 })
@@ -178,6 +177,7 @@ gulp.task('serve:dist', cb => {
     runSequence(
         'clean:dist',
         'build',
+        'env:prod',
         'start:server:prod',
         cb
     )

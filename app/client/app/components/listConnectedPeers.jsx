@@ -25,7 +25,6 @@ export default class listConnectedPeers extends Component {
         window.SignalingChannel.sendAvailablePeers(this.props.pseudo)
         initCallee(window.SignalingChannel, (peerID, channel) => {
             StoreWebRTC.addConnection(peerID, channel)
-            console.log(StoreWebRTC.getInstance())
         })
     }
 
@@ -49,7 +48,6 @@ export default class listConnectedPeers extends Component {
             if (Object.keys(StoreWebRTC.getInstance()).indexOf(peerID) === -1) {
                 const channel = initCaller(window.SignalingChannel, peerID, this.props.pseudo)
                 StoreWebRTC.addConnection(peerID, channel)
-                console.log(StoreWebRTC.getInstance())
             }
         })
     }
@@ -93,13 +91,9 @@ export default class listConnectedPeers extends Component {
                 )
             }
         })
-        // receiveChannel.onmessage = (evt) => {
-        //     this.messageCallback(evt.data)
-        // }
     }
 
     render () {
-        console.log(this.state)
         return (
             <div>
                 <div className="col-md-3">

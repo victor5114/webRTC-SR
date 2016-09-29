@@ -8,12 +8,7 @@ exports.default = function (app) {
     // set the view engine to ejs
     app.set('view engine', 'ejs');
     app.set('views', CLIENT_PATH);
-
     app.use(_express2.default.static(CLIENT_PATH));
-
-    app.get('/', function (req, res) {
-        res.render('index.ejs');
-    });
 
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);

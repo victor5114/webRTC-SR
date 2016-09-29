@@ -37,11 +37,6 @@ export default class RTCConnection {
         var receiveChannel = evt.channel
         console.log('channel received')
         this.channelCallback(this.peerID, receiveChannel)
-        // this.channel = receiveChannel
-        // window.channel = receiveChannel
-        // receiveChannel.onmessage = (evt) => {
-        //     this.messageCallback(evt.data)
-        // }
     }
 
     addIceCandidate (ICECandidate, source) {

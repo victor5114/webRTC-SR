@@ -1,7 +1,8 @@
 import { onAvailablePseudoResponse, onAvailablePeersResponse } from './customEvents'
 import { AVAILABLE_PEERS, CHECK_AVAILABLE_PSEUDO } from '../types/dataActions'
+import { websocketURL } from '../../env.js'
 
-const wsUri = 'ws://localhost:8089/'
+const wsUri = websocketURL
 
 export default class SignalingChannel {
     static _JSONFormatMessage (type, data, destination, flags) {

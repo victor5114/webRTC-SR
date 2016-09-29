@@ -3,6 +3,7 @@ const path = require('path')
 const loaders = require('./webpack.loaders')
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const DEST_PATH = './app/client-dist'
 const SRC_PATH = './app/client'
@@ -26,7 +27,7 @@ loaders.push({
 })
 // local scss modules
 loaders.push({
-    test: /[\/\\]src[\/\\].*\.scss/,
+    test: /[\/\\]app[\/\\].*\.scss/,
     loaders: [
         'style?sourceMap',
         'css',
@@ -36,7 +37,7 @@ loaders.push({
 
 // local css modules
 loaders.push({
-    test: /[\/\\]src[\/\\].*\.css/,
+    test: /[\/\\]app[\/\\].*\.css/,
     loaders: [
         'style?sourceMap',
         'css'
@@ -45,11 +46,8 @@ loaders.push({
 
 module.exports = {
     entry: {
-        callee: [
-            `${SRC_PATH}/callee/index.js` // The appʼs entry point
-        ],
-        caller: [
-            `${SRC_PATH}/caller/index.js` // The appʼs entry point
+        all: [
+            `${SRC_PATH}/index.jsx` // The appʼs entry point
         ]
     },
     output: {
@@ -57,7 +55,7 @@ module.exports = {
         filename: '[name].bundle.js'
     },
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['', '.js', 'jsx']
     },
     module: {
         loaders
@@ -80,6 +78,11 @@ module.exports = {
         new webpack.optimize.OccurenceOrderPlugin(),
         new ExtractTextPlugin('[contenthash].css', {
             allChunks: true
+        }),
+        new HtmlWebpackPlugin({
+            title: 'WebRTC Simple chat',
+            template: `${SRC_PATH}/index.html`,
+            favicon: `./favicon.ico`
         }),
         new webpack.optimize.DedupePlugin()
     ]

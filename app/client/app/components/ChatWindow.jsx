@@ -30,7 +30,6 @@ export default class listConnectedPeers extends Component {
             }
 
             this.channel = StoreWebRTC.getChannelByPeer(nextProps.peerID)
-            console.log(this.channel)
             this.channel.onmessage = (evt) => {
                 const newMess = {
                     sender: nextProps.peerID,
@@ -47,21 +46,6 @@ export default class listConnectedPeers extends Component {
             })
         }
     }
-
-    // componentDidUpdate () {
-    //     if (this.state.peerID.length !== 0 && this.state.peerID) {
-    //         this.channel = StoreWebRTC.getChannelByPeer(this.props.peerID)
-    //         console.log(this.channel)
-    //         this.channel.onmessage = (evt) => {
-    //             const newMess = {
-    //                 sender: this.props.peerID,
-    //                 message: evt.data,
-    //                 timestamp: new Date().toISOString()
-    //             }
-    //             this.setState({ ...this.state, historyMessage: this.state.historyMessage.concat(newMess) })
-    //         }
-    //     }
-    // }
 
     sendMessage (evt) {
         evt.preventDefault()

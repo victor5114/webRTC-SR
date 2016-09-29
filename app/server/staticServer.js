@@ -10,10 +10,6 @@ export default function (app) {
     app.set('views', CLIENT_PATH)
     app.use(express.static(CLIENT_PATH))
 
-    app.get('/', (req, res) => {
-        res.render(`tuto.ejs`)
-    })
-
     app.use((err, req, res, next) => {
         res.status(err.status || 500)
         res.render('error', {

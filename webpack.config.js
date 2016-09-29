@@ -83,7 +83,7 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            title: 'RTC Test',
+            title: 'WebRTC Simple chat',
             template: `${SRC_PATH}/index.html`,
             favicon: `${SRC_PATH}/favicon.ico`
         })
