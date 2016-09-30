@@ -108,13 +108,15 @@ export default class listConnectedPeers extends Component {
     render () {
         return (
             <div>
-                <div className="col-md-3">
-                    <b>Your pseudo is {this.props.pseudo}</b>
+                <div className="col-md-3 col-sm-3 col-xs-3">
+                    <div className="peer-id-title">
+                        <span className="label label-info">Your peer ID : {this.props.pseudo}</span>
+                    </div>
                     <ul className="list-group">
                         {this.renderPeerListElem()}
                     </ul>
                 </div>
-                <div className="col-md-9">
+                <div className="col-md-9 col-sm-9 col-xs-9">
                     <ChatWindow peerID={this.state.currentPeer} pseudo={this.props.pseudo}/>
                 </div>
             </div>

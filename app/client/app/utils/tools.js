@@ -15,3 +15,14 @@ export function removeElem (array, elem) {
     if (index > -1) { array.splice(index, 1) }
     return array
 }
+
+/**
+* @public
+* @function getFormattedDate
+* @description Utility method to get formatted date
+* @param {Date} date - Date to format
+* @return {String} formatted date
+*/
+export function getFormattedDate (date) {
+    return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+}

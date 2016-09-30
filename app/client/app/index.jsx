@@ -66,7 +66,7 @@ export default class App extends Component {
                     onChange={this.handleChangePseudo}
                     placeholder="Type your pseudo"
                     autoComplete="off"/>
-                <button type="submit" className="btn btn-primary" disabled={!this.state.pseudoOK}>
+                <button type="submit" className="btn btn-primary btn-xs" disabled={!this.state.pseudoOK}>
                     <TickValidator ok={this.state.pseudoOK}/>
                 </button>
             </form>
@@ -77,6 +77,9 @@ export default class App extends Component {
         return (
         <div className="container">
             <div className="container-fluid">
+                <div className="page-header">
+                    <h1>WebRTC Simple chat</h1>
+                </div>
                 <div className="row">
                 {this.renderPseudoInput(this.state.hasPseudo)}
                 {this.renderChat(this.state.hasPseudo)}

@@ -84,7 +84,6 @@ export default class SignalingChannel {
     }
 
     onData (type, data, source) {
-        console.log('receive data from ', source)
         switch (type) {
         case 'checkAvailablePseudo':
             onAvailablePseudoResponse(data)

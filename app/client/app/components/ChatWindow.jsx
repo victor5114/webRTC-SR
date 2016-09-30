@@ -1,11 +1,12 @@
 /* eslint no-unused-vars: "off" */
 import React, { Component, PropTypes } from 'react'
 import StoreWebRTC from '../utils/storeWebRTC'
+import { getFormattedDate } from '../utils/tools'
 
 const initialHistory = [{
     sender: 'Bot',
     message: 'You can safely chat over WebRTC now !',
-    timestamp: new Date().toISOString()
+    timestamp: getFormattedDate(new Date())
 }]
 
 export default class ChatWindow extends Component {
@@ -19,7 +20,6 @@ export default class ChatWindow extends Component {
         this.channel = null
         this.sendMessage = this.sendMessage.bind(this)
         this.renderChatMessages = this.renderChatMessages.bind(this)
-        this.handleScroll = this.handleScroll.bind(this)
     }
 
     /* This method is called when the component is re rendered with new props (new peerID) */
@@ -36,7 +36,7 @@ export default class ChatWindow extends Component {
                 const newMess = {
                     sender: nextProps.peerID,
                     message: evt.data,
-                    timestamp: new Date().toISOString()
+                    timestamp: getFormattedDate(new Date())
                 }
                 this.setState({ ...this.state, historyMessage: this.state.historyMessage.concat(newMess) })
             }
@@ -61,7 +61,7 @@ export default class ChatWindow extends Component {
         const newMess = {
             sender: this.props.pseudo,
             message: messContent,
-            timestamp: new Date().toISOString()
+            timestamp: getFormattedDate(new Date())
         }
         this.setState({ ...this.state, historyMessage: this.state.historyMessage.concat(newMess) })
     }
@@ -70,8 +70,8 @@ export default class ChatWindow extends Component {
         return this.state.historyMessage.map((mess) => {
             return (
                 <li key={mess.timestamp} className="chat-message-element">
-                    <span>{mess.sender} :</span>
-                    <span>{mess.timestamp} $</span>
+                    <span>{mess.timestamp}: </span>
+                    <span>{mess.sender} $ </span>
                     <span>{mess.message}</span>
                 </li>
             )
@@ -80,7 +80,13 @@ export default class ChatWindow extends Component {
 
     render () {
         if (this.props.peerID.length === 0 || !this.props.peerID) {
-            return <div className="panel panel-primary">Start a chat by clicking on a Peer</div>
+            return (
+                <div className="panel panel-primary">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">Start a chat by clicking on a Peer</h3>
+                    </div>
+                </div>
+            )
         }
         return (
             <div className="panel panel-primary chat-window">
