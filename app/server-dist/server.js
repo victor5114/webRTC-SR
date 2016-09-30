@@ -24,11 +24,20 @@ var wss = new _ws.Server({ server: server });
 
 var app = (0, _express2.default)();
 
+/* Expose static files */
 (0, _staticServer2.default)(app);
 
+/* Server listen on connection */
 wss.on('connection', function (ws) {
     console.log('connection from a client');
 
+    /**
+    * @function broadcast
+    * @description Call method over any channel other than incoming one
+    * @param {Function} fn - Function to call
+    * @param {Websocket} ws - Function to call
+    * @param {...} args - Arguments to call with function
+    */
     wss.broadcast = function (fn, ws) {
         for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
             args[_key - 2] = arguments[_key];
@@ -37,7 +46,6 @@ wss.on('connection', function (ws) {
         for (var i in this.clients) {
             // Broadcast to anyone except the incoming connection
             if (this.clients[i] !== ws) {
-                console.log(i);
                 fn.call.apply(fn, [this].concat(args, [this.clients[i]]));
             }
         }
@@ -46,11 +54,9 @@ wss.on('connection', function (ws) {
     ws.on('message', function (message, flags) {
         var objMessage = JSON.parse(message);
         if (objMessage.flags === 'broadcast') {
-            console.log('BROADCAST');
             // Broadcast message to anyone
             wss.broadcast(_messageHandler.dataHandler, ws, objMessage);
         } else if (objMessage.flags === 'data') {
-            console.log('DATA');
             // Compute data and sent by to source
             (0, _messageHandler.dataHandler)(objMessage, ws);
         } else {
@@ -59,6 +65,7 @@ wss.on('connection', function (ws) {
         }
     });
 
+    /* We delete the peer ref related to closed connection */
     ws.on('close', function () {
         var args = {
             type: 'availablePeers',
@@ -75,6 +82,4 @@ server.on('request', app);
 server.listen(PORT, function () {
     return console.log('Listening on ' + server.address().port);
 });
-
-console.log('started signaling server on port ' + PORT);
 //# sourceMappingURL=server.js.map

@@ -5,13 +5,13 @@
   "description": "Streamroot's test for applicant developpers",
   "main": "index.js",
   "scripts": {
-    "dev-server": "gulp serve",
-    "build-server": "gulp build",
+    "dev-server": "./node_modules/.bin/gulp serve",
+    "build-server": "./node_modules/.bin/gulp build",
     "dev-client": "./node_modules/.bin/webpack-dev-server --progress --profile --colors",
     "build-client": "./node_modules/.bin/webpack --config webpack.production.config.js --progress --profile --colors",
     "build": "npm run build-server && npm run build-client",
-    "start": "gulp serve:dist",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register './tests/**/*.js'",
+    "start": "./node_modules/.bin/gulp serve:dist",
+    "test": "./node_modules/.bin/gulp tests:server",
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx src"
   },
   "author": "Victor Pongnian",

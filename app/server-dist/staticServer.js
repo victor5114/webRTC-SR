@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (app) {
-    // set the view engine to ejs
-    app.set('view engine', 'ejs');
     app.set('views', CLIENT_PATH);
     app.use(_express2.default.static(CLIENT_PATH));
 

@@ -82,7 +82,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'WebRTC Simple chat',
             template: `${SRC_PATH}/index.html`,
-            favicon: `./favicon.ico`
+            favicon: `${SRC_PATH}/favicon.ico`
         }),
         new webpack.optimize.DedupePlugin()
     ]

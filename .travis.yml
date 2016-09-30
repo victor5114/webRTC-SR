@@ -1,0 +1,20 @@
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+- '4.4'
+- '4.3'
+addons:
+apt:
+  sources:
+  - google-chrome
+  packages:
+  - google-chrome-stable
+  - google-chrome-beta
+before_install:
+- sudo apt-get update
+- sudo sh -e /etc/init.d/xvfb start
+before_scrip:
+- npm install
+- npm run build
+script: npm run test

@@ -12,13 +12,12 @@
     "build": "npm run build-server && npm run build-client",
     "start": "gulp serve:dist",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register './tests/**/*.js'",
-    "lint": "./node_modules/.bin/eslint --ext js --ext jsx src || exit 0"
+    "lint": "./node_modules/.bin/eslint --ext js --ext jsx src"
   },
   "author": "Victor Pongnian",
   "dependencies": {
     "compression": "^1.6.2",
     "dotenv-safe": "^2.3.1",
-    "ejs": "^2.5.2",
     "errorhandler": "^1.4.3",
     "express": "^4.14.0",
     "lodash": "^3.10.1",

@@ -80,20 +80,20 @@ let mocha = lazypipe()
         ]
     })
 
-let istanbul = lazypipe()
-    .pipe(plugins.istanbul.writeReports)
-    .pipe(plugins.istanbulEnforcer, {
-        thresholds: {
-            global: {
-                lines: 80,
-                statements: 80,
-                branches: 80,
-                functions: 80
-            }
-        },
-        coverageDirectory: './coverage',
-        rootDirectory: ''
-    })
+// let istanbul = lazypipe()
+//     .pipe(plugins.istanbul.writeReports)
+//     .pipe(plugins.istanbulEnforcer, {
+//         thresholds: {
+//             global: {
+//                 lines: 80,
+//                 statements: 80,
+//                 branches: 80,
+//                 functions: 80
+//             }
+//         },
+//         coverageDirectory: './coverage',
+//         rootDirectory: ''
+//     })
 
   /********************
   * Env
@@ -179,6 +179,15 @@ gulp.task('serve:dist', cb => {
         'build',
         'env:prod',
         'start:server:prod',
+        cb
+    )
+})
+
+gulp.task('tests:server', cb => {
+    runSequence(
+        'env:test',
+        'lint:scripts:server',
+        'mocha:unit',
         cb
     )
 })
