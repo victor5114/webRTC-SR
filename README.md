@@ -56,8 +56,9 @@ After running the build command, you can run `npm run start` that will start the
 
 ### Peer connection
 This is how peer connection is made along the application lifecycle
-1. When a 1st user load the application, he's been asked to enter a pseudo which will be used as unique PeerID across the app. User cannot choose a pseudo that is already taken bu other peer.
-2. After validation, the user enter on the part. If peers are already connected to the app, their peerID will appear on the left side list otherwise. Under the hood a connection will be opened straight away by using Caller method, even if user didn't require any connection with peers. As all messages have been exchanged by Websocket, this process should be pretty quick (depending on network). Then at the end, the Callee method will be called in order to expose the user to future connection with new incomers. Each connection will end up by peers receiving channel that is safely stored to be reused later on.
+
+1. When a 1st user load the application, he's been asked to enter a pseudo which will be used as unique PeerID across the app. User cannot choose a pseudo that is already taken by other peer.
+2. After validation, the user enters the main interface. If peers are already connected to the app, their peerID will appear on the left side list otherwise. Under the hood a connection will be opened straight away by using Caller method, even if user didn't require any connection with peers. As all messages have been exchanged by Websocket, this process should be pretty quick (depending on network). Then at the end, the Callee method will be called in order to expose the user to future connection with new incomers. Each connection will end up by peers receiving channel that is safely stored to be reused later on.
 3. Now that all connection are done with all peers, the user can decide to chat with someone by clicking on the pencil button. Then it will simply open a chat window in which users will be able to send the data across the channel that has been opened and stored in the previous step
 
 
