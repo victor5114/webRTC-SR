@@ -1,3 +1,4 @@
+/* Singleton instance */
 const StoreWebRTC = (function () {
     let instance = null
 

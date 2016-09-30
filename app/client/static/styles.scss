@@ -18,3 +18,16 @@ body {
 .chat-window {
     font: 1.4rem "courier-prime", courier, monospace !important;
 }
+
+.chat-message-container {
+    height: 50vh;
+    overflow: scroll;
+}
+
+#chat-message-list {
+    overflow: scroll;
+}
+
+.chat-message-element {
+
+}

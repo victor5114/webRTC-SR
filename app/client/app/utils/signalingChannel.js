@@ -4,6 +4,12 @@ import { websocketURL } from '../../env.js'
 
 const wsUri = websocketURL
 
+/**
+* @public
+* @class SignalingChannel
+* @description Wrap an RTC connection
+* @this {WebSocket} _ws - Websocket instance
+*/
 export default class SignalingChannel {
     static _JSONFormatMessage (type, data, destination, flags) {
         return JSON.stringify({

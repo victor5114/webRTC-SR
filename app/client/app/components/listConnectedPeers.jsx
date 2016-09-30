@@ -20,6 +20,7 @@ export default class listConnectedPeers extends Component {
         this.once = true
     }
 
+    /* The method is called only once when component is render for the first time */
     componentDidMount () {
         window.addEventListener(ON_AVAILABLE_PEERS_RESPONSE, this.handlePeersResponse)
         window.SignalingChannel.sendAvailablePeers(this.props.pseudo)
@@ -28,10 +29,15 @@ export default class listConnectedPeers extends Component {
         })
     }
 
+    /* The method is called only once when component is deleted */
     componentWillUnmount () {
         window.removeEventListener(ON_AVAILABLE_PEERS_RESPONSE, this.handlePeersResponse)
     }
 
+    /*
+    * This method is called when we receive the connected peers
+    * Here we call openConnectionWithPeers to connect with all the peers
+    */
     handlePeersResponse (evt) {
         const peersList = evt.detail
         removeElem(peersList, this.props.pseudo) // Egde case if server send list with own pseudo
@@ -43,6 +49,9 @@ export default class listConnectedPeers extends Component {
         this.setState({ peersList: peersList })
     }
 
+    /*
+    * Loop through connected peers and init a WebRTC with each
+    */
     openConnectionWithPeers (peersList) {
         peersList.map((peerID) => {
             if (Object.keys(StoreWebRTC.getInstance()).indexOf(peerID) === -1) {
@@ -52,6 +61,9 @@ export default class listConnectedPeers extends Component {
         })
     }
 
+    /*
+    * Update state to render the chat window related to one peer
+    */
     onClickOpenChat (peer) {
         this.setState({ ...this.state, currentPeer: peer })
     }

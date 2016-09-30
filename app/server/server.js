@@ -10,11 +10,20 @@ const wss = new Server({ server: server })
 
 const app = express()
 
+/* Expose static files */
 startStaticServer(app)
 
+/* Server listen on connection */
 wss.on('connection', (ws) => {
     console.log('connection from a client')
 
+    /**
+    * @function broadcast
+    * @description Call method over any channel other than incoming one
+    * @param {Function} fn - Function to call
+    * @param {Websocket} ws - Function to call
+    * @param {...} args - Arguments to call with function
+    */
     wss.broadcast = function (fn, ws, ...args) {
         for (var i in this.clients) {
             // Broadcast to anyone except the incoming connection
@@ -38,6 +47,7 @@ wss.on('connection', (ws) => {
         }
     })
 
+    /* We delete the peer ref related to closed connection */
     ws.on('close', () => {
         const args = {
             type: 'availablePeers',
@@ -52,5 +62,3 @@ wss.on('connection', (ws) => {
 
 server.on('request', app)
 server.listen(PORT, () => console.log('Listening on ' + server.address().port))
-
-console.log('started signaling server on port ' + PORT)

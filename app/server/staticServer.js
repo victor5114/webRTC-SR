@@ -5,8 +5,6 @@ const CLIENT_FOLDER = process.env.NODE_ENV === 'production' ? '../client-dist/' 
 const CLIENT_PATH = path.join(__dirname, CLIENT_FOLDER)
 
 export default function (app) {
-    // set the view engine to ejs
-    app.set('view engine', 'ejs')
     app.set('views', CLIENT_PATH)
     app.use(express.static(CLIENT_PATH))
 

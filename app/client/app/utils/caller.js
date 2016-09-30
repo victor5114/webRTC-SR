@@ -1,6 +1,13 @@
-// import SignalingChannel from './signalingChannel'
 import RTCConnection from './RTCConnection'
 
+/**
+* @public
+* @function initCaller
+* @description Init caller connection
+* @param {SigChannel} sigChannel - Instance of signaling channel
+* @param {String} peerID - peer ID
+* @param {String} callerID - caller ID
+*/
 export default function initCaller (signalingChannel, peerID, callerID) {
     const peerConnection = new RTCConnection(signalingChannel, peerID)
     // :warning the dataChannel must be opened BEFORE creating the offer.

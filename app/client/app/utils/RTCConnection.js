@@ -4,6 +4,15 @@ const RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate
 
 const servers = { iceServers: [{urls: 'stun:stun.1.google.com:19302'}] }
 
+/**
+* @public
+* @class RTCConnection
+* @description Wrap an RTC connection
+* @this {SigChannel} signalingChannel - Instance of signaling channel
+* @this {String} peerID - peer ID
+* @this {Function} channelCallback - callback function
+* @this {RTCPeerConnection} pc - Instance of RTCPeerConnection
+*/
 export default class RTCConnection {
     constructor (sigChannel, peerID, channelCallback) {
         this.peerID = peerID

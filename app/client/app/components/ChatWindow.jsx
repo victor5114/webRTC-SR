@@ -8,7 +8,7 @@ const initialHistory = [{
     timestamp: new Date().toISOString()
 }]
 
-export default class listConnectedPeers extends Component {
+export default class ChatWindow extends Component {
     constructor (props) {
         super(props)
         this.state = {
@@ -19,12 +19,14 @@ export default class listConnectedPeers extends Component {
         this.channel = null
         this.sendMessage = this.sendMessage.bind(this)
         this.renderChatMessages = this.renderChatMessages.bind(this)
+        this.handleScroll = this.handleScroll.bind(this)
     }
 
+    /* This method is called when the component is re rendered with new props (new peerID) */
     componentWillReceiveProps (nextProps) {
         if (this.props.peerID !== nextProps.peerID) {
-            // Override the onmessage method otherwise in memory (old)
-            // channel will still update the state as it's not garbage collected
+            // Override the onmessage method otherwise in memory channel
+            // will still update the state as it's not garbage collected
             if (this.channel) {
                 this.channel.onmessage = () => { return 'noop' }
             }
@@ -67,7 +69,7 @@ export default class listConnectedPeers extends Component {
     renderChatMessages () {
         return this.state.historyMessage.map((mess) => {
             return (
-                <li key={mess.timestamp}>
+                <li key={mess.timestamp} className="chat-message-element">
                     <span>{mess.sender} :</span>
                     <span>{mess.timestamp} $</span>
                     <span>{mess.message}</span>
@@ -85,8 +87,8 @@ export default class listConnectedPeers extends Component {
                 <div className="panel-heading">
                     <h3 className="panel-title">{this.peerID}</h3>
                 </div>
-                <div className="panel-body">
-                    <ul>
+                <div className="panel-body chat-message-container clearfix">
+                    <ul id="chat-message-list">
                         {this.renderChatMessages()}
                     </ul>
                 </div>
