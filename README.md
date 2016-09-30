@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.com/victor5114/webRTC-SR.svg?token=RHiLFghDsxncnKfiWtQ8&branch=master)](https://travis-ci.com/victor5114/webRTC-SR)
 
+[![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+
 # WebRTC simple chat
 Here's my solution to the Streamroot assessment.
 
