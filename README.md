@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/victor5114/webRTC-SR.svg?token=RHiLFghDsxncnKfiWtQ8&branch=master)](https://travis-ci.com/victor5114/webRTC-SR)
+[![Build Status](https://travis-ci.org/victor5114/webRTC-SR.svg?branch=master)](https://travis-ci.org/victor5114/webRTC-SR)
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
