@@ -5,4 +5,4 @@ FILENAME="app/client/env.js"
 
 touch $FILENAME
 
-echo "module.exports = {websocketURL: 'ws://$IP:$PORT/', enableDebug: true}" > $FILENAME
+echo "module.exports = {websocketURL: 'wss://$IP:$PORT/', enableDebug: true}" > $FILENAME
