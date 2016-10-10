@@ -10,7 +10,7 @@
     "npm": "3.10.x"
   },
   "scripts": {
-    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
+    "heroku-prebuild": "echo 'This runs before Heroku installs your dependencies.'",
     "dev-server": "./node_modules/.bin/gulp serve",
     "build-server": "./node_modules/.bin/gulp build",
     "dev-client": "./node_modules/.bin/webpack-dev-server --progress --profile --colors",
