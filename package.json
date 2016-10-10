@@ -1,10 +1,16 @@
 {
-  "name": "WebRTC-simple-application",
+  "name": "WebRTC-simple-chat",
   "version": "0.0.1",
   "private": true,
-  "description": "Streamroot's test for applicant developpers",
+  "description": "WebRTC simple chat application",
   "main": "index.js",
+  "author": "Victor Pongnian",
+  "engines": {
+    "node": "4.4.x",
+    "npm": "3.10.x"
+  },
   "scripts": {
+    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
     "dev-server": "./node_modules/.bin/gulp serve",
     "build-server": "./node_modules/.bin/gulp build",
     "dev-client": "./node_modules/.bin/webpack-dev-server --progress --profile --colors",
@@ -12,9 +18,9 @@
     "build": "npm run build-server && npm run build-client",
     "start": "./node_modules/.bin/gulp serve:dist",
     "test": "./node_modules/.bin/gulp tests:server",
-    "lint": "./node_modules/.bin/eslint --ext js --ext jsx src"
+    "lint": "./node_modules/.bin/eslint --ext js --ext jsx src",
+    "postinstall": "./init_env.sh"
   },
-  "author": "Victor Pongnian",
   "dependencies": {
     "compression": "^1.6.2",
     "dotenv-safe": "^2.3.1",

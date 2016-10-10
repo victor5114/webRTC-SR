@@ -4,7 +4,6 @@
 
 
 # WebRTC simple chat
-Here's my solution to the Streamroot assessment.
 
 This is a simple Peer-to-peer chat application using WebRTC. I made an extensive use of WebSocket for the signaling protocol of WebRTC but also to allow peers to trade relevant information regarding available PeerIDs and Peers connected in the application.
 It's my first project with WebRTC and I must say it's such a promising piece of technologies ! I plan to maintain this application in order to catch up with future improvement and release of WebRTC API. I hope you'll enjoy it

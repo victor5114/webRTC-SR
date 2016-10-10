@@ -18,3 +18,8 @@ before_scrip:
 - npm install
 - npm run build
 script: npm run test
+deploy:
+    provider: heroku
+    app: webrtc-simple-chat
+    api_key:
+        secure: CWFXn3LCx/aY+OySd7Pl1lNQ7Sn5m4VstUUJbVFUcjRbrnNyLd9qmXgoum0osg6Bhy0oE7xSYn5BWn19UBhBHfmxIeqR2erLpi2GAxj2G5kggzMwVlzJGM7iJVmSGrJIoVdrUX//6Wl+ywyDMQ99CdAyP2oG5kT/aPOFJj3N7qpKU+yHwlqa38PcTg2dEBi77gjP+qDlffnh7/dbb2qZh+XtVGQyOtWUONrVXWkPOQdMgiq6XanoQ4F4RyQWVq/iRbcr8lcmYdUkvCwFzSWKRHptQODzGudKeH0L4DC8Tma/7We+kSYKJ9NWybMGENsYwOi8PgYIJaX6PD26e7N/FMa0p902NWCM3G15mmaGN0yX4kmL+BYJB/jkmG9jK/N1E16J9mFKf+wMOfm9NownBWFAeQGGn2c8xPQbyItgK3MVBdQHHaCRVIjviayXFdhkcfwdqomPebAApIpVcqD3Oumko/8MnR64mVrwcTOFQdon7aBLT0MMrDWMHRbQACERa00v0ZyU25XT8kP1+TDkFDnEFuE3Th0zIws1Y3fB9c3Y1AFO7PDU7Ex20T8n59bjPZ7vKHSHVYztR0a/qeZs1USf6KYSOUvlUfEU9lN160XYkjOato6iBux8rhKua7zFe93ZAWmcaXt2rOmiPaWcYKJqaVyf6P+7Ye7mO27btzU=
