@@ -1,20 +1,26 @@
 {
-  "name": "WebRTC-simple-application",
+  "name": "WebRTC-simple-chat",
   "version": "0.0.1",
   "private": true,
-  "description": "Streamroot's test for applicant developpers",
+  "description": "WebRTC simple chat application",
   "main": "index.js",
+  "author": "Victor Pongnian",
+  "engines": {
+    "node": "4.4.x",
+    "npm": "3.10.x"
+  },
   "scripts": {
-    "dev-server": "gulp serve",
-    "build-server": "gulp build",
+    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
+    "dev-server": "./node_modules/.bin/gulp serve",
+    "build-server": "./node_modules/.bin/gulp build",
     "dev-client": "./node_modules/.bin/webpack-dev-server --progress --profile --colors",
     "build-client": "./node_modules/.bin/webpack --config webpack.production.config.js --progress --profile --colors",
     "build": "npm run build-server && npm run build-client",
-    "start": "gulp serve:dist",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register './tests/**/*.js'",
-    "lint": "./node_modules/.bin/eslint --ext js --ext jsx src"
+    "start": "./node_modules/.bin/gulp serve:dist",
+    "test": "./node_modules/.bin/gulp tests:server",
+    "lint": "./node_modules/.bin/eslint --ext js --ext jsx src",
+    "postinstall": "./init_env.sh"
   },
-  "author": "Victor Pongnian",
   "dependencies": {
     "compression": "^1.6.2",
     "dotenv-safe": "^2.3.1",
@@ -34,6 +40,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.3.13",
+    "babel-preset-stage-1": "^6.16.0",
     "babel-register": "^6.6.5",
     "babel-runtime": "^6.11.6",
     "bootstrap": "^3.3.7",
